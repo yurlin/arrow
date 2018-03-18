@@ -6,7 +6,7 @@ import arrow.data.*
 import arrow.free.Cofree.Companion.unfold
 import arrow.test.UnitSpec
 import arrow.test.concurrency.SideEffect
-import arrow.test.laws.ComonadLaws
+import arrow.test.laws.ComonadLaws.laws
 import arrow.typeclasses.Eq
 import arrow.typeclasses.comonad
 import arrow.typeclasses.functor
@@ -25,7 +25,7 @@ class CofreeTest : UnitSpec() {
             comonad<CofreePartialOf<ForOption>>() shouldNotBe null
         }
 
-        testLaws(ComonadLaws.laws(Cofree.comonad<ForOption>(), {
+        testLaws(Cofree.comonad<ForOption>().laws({
             val sideEffect = SideEffect()
             unfold(sideEffect.counter, {
                 sideEffect.increment()

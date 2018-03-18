@@ -1,12 +1,16 @@
 package arrow.data
 
 import arrow.core.*
+import arrow.test.UnitSpec
+import arrow.test.laws.ComonadLaws.laws
+import arrow.test.laws.EqLaws
+import arrow.test.laws.MonadLaws
+import arrow.test.laws.ShowLaws
+import arrow.test.laws.TraverseLaws
+import arrow.typeclasses.*
 import io.kotlintest.KTestJUnitRunner
 import io.kotlintest.matchers.shouldNotBe
 import org.junit.runner.RunWith
-import arrow.test.UnitSpec
-import arrow.test.laws.*
-import arrow.typeclasses.*
 
 @RunWith(KTestJUnitRunner::class)
 class IdTest : UnitSpec() {
@@ -27,7 +31,7 @@ class IdTest : UnitSpec() {
             ShowLaws.laws { Id(it) },
             MonadLaws.laws(Id.monad(), Eq.any()),
             TraverseLaws.laws(Id.traverse(), Id.functor(), ::Id),
-            ComonadLaws.laws(Id.comonad(), ::Id, Eq.any())
+            Id.comonad().laws(::Id, Eq.any())
         )
     }
 }

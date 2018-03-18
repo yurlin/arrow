@@ -1,15 +1,17 @@
 package arrow.data
 
 import arrow.Kind3
-import arrow.core.*
-import arrow.syntax.comonad.extract
+import arrow.core.ForId
+import arrow.core.Id
+import arrow.core.Right
+import arrow.core.comonad
+import arrow.test.UnitSpec
+import arrow.test.laws.ComonadLaws.laws
+import arrow.test.laws.TraverseLaws
+import arrow.typeclasses.*
 import io.kotlintest.KTestJUnitRunner
 import io.kotlintest.matchers.shouldNotBe
 import org.junit.runner.RunWith
-import arrow.test.UnitSpec
-import arrow.test.laws.ComonadLaws
-import arrow.test.laws.TraverseLaws
-import arrow.typeclasses.*
 
 @RunWith(KTestJUnitRunner::class)
 class CoproductTest : UnitSpec() {
@@ -28,7 +30,7 @@ class CoproductTest : UnitSpec() {
 
         testLaws(
             TraverseLaws.laws(traverse(), functor(), { Coproduct(Right(Id(it))) }, EQ),
-            ComonadLaws.laws(comonad(), { Coproduct(Right(Id(it))) }, EQ)
+            Coproduct.comonad(Id.comonad(), Id.comonad()).laws ({ Coproduct(Right(Id(it))) }, EQ)
         )
 
     }

@@ -1,8 +1,8 @@
 package arrow.data
 
-import arrow.instances.*
 import arrow.test.UnitSpec
 import arrow.test.laws.*
+import arrow.test.laws.ComonadLaws.laws
 import arrow.typeclasses.*
 import io.kotlintest.KTestJUnitRunner
 import io.kotlintest.matchers.shouldNotBe
@@ -36,7 +36,7 @@ class NonEmptyListTest : UnitSpec() {
                 NonEmptyList.semigroupK(),
                 applicative,
                 Eq.any()),
-            ComonadLaws.laws(NonEmptyList.comonad(), { NonEmptyList.of(it) }, Eq.any()),
+                NonEmptyList.comonad().laws({ NonEmptyList.of(it) }, Eq.any()),
             TraverseLaws.laws(NonEmptyList.traverse(), applicative, { n: Int -> NonEmptyList.of(n) }, Eq.any())
         )
 

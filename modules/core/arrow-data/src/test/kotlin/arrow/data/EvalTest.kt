@@ -3,15 +3,18 @@ package arrow.data
 import arrow.Kind
 import arrow.core.*
 import arrow.core.Eval.Now
-import arrow.syntax.collections.prependTo
 import arrow.test.UnitSpec
 import arrow.test.concurrency.SideEffect
-import arrow.test.laws.*
+import arrow.test.laws.ComonadLaws.laws
+import arrow.test.laws.MonadLaws
 import arrow.typeclasses.Eq
 import io.kotlintest.KTestJUnitRunner
-import io.kotlintest.matchers.*
-import io.kotlintest.properties.*
+import io.kotlintest.matchers.fail
+import io.kotlintest.matchers.shouldBe
+import io.kotlintest.properties.Gen
+import io.kotlintest.properties.forAll
 import org.junit.runner.RunWith
+
 
 @RunWith(KTestJUnitRunner::class)
 class EvalTest : UnitSpec() {
@@ -23,7 +26,7 @@ class EvalTest : UnitSpec() {
 
         testLaws(
             MonadLaws.laws(Eval.monad(), EQ),
-            ComonadLaws.laws(Eval.comonad(), ::Now, EQ)
+            Eval.comonad().laws(::Now, EQ)
         )
 
         "should map wrapped value" {

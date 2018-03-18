@@ -2,7 +2,7 @@ package arrow.data
 
 import arrow.Kind
 import arrow.test.UnitSpec
-import arrow.test.laws.ComonadLaws
+import arrow.test.laws.ComonadLaws.laws
 import arrow.test.laws.MonadLaws
 import arrow.typeclasses.Eq
 import io.kotlintest.KTestJUnitRunner
@@ -17,7 +17,7 @@ class Function0Test : UnitSpec() {
     init {
         testLaws(
             MonadLaws.laws(Function0.monad(), EQ),
-            ComonadLaws.laws(Function0.comonad(), { { it }.k() }, EQ)
+            Function0.comonad().laws({ { it }.k() }, EQ)
         )
     }
 }

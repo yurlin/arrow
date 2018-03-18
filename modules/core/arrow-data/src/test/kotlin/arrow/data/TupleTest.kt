@@ -1,12 +1,16 @@
 package arrow.data
 
 import arrow.core.*
+import arrow.test.UnitSpec
+import arrow.test.laws.ComonadLaws.laws
+import arrow.test.laws.EqLaws
+import arrow.test.laws.MonadLaws
+import arrow.test.laws.ShowLaws
+import arrow.test.laws.TraverseLaws
+import arrow.typeclasses.*
 import io.kotlintest.KTestJUnitRunner
 import io.kotlintest.matchers.shouldNotBe
 import org.junit.runner.RunWith
-import arrow.test.UnitSpec
-import arrow.test.laws.*
-import arrow.typeclasses.*
 
 @RunWith(KTestJUnitRunner::class)
 class TupleTest : UnitSpec() {
@@ -43,7 +47,7 @@ class TupleTest : UnitSpec() {
 
         testLaws(
             MonadLaws.laws(Tuple2.monad<Int>(), Eq.any()),
-            ComonadLaws.laws(Tuple2.comonad(), { 0 toT it }, Eq.any()),
+            Tuple2.comonad<Int>().laws({ 0 toT it }, Eq.any()),
             TraverseLaws.laws(Tuple2.traverse(), Tuple2.functor(), { 0 toT it }, Eq.any()),
             EqLaws.laws { Tuple2(it, it) },
             ShowLaws.laws { Tuple2(it, it) },
